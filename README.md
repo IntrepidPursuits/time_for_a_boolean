@@ -1,7 +1,7 @@
 Time for A Boolean
 ==================
 
-[![Build Status](https://travis-ci.org/calebthompson/time_for_a_boolean.png)](https://travis-ci.org/calebthompson/time_for_a_boolean)
+[![Build Status](https://api.travis-ci.org/calebthompson/time_for_a_boolean.png?branch=master)](https://travis-ci.org/calebthompson/time_for_a_boolean)
 [![Code Climate](https://codeclimate.com/github/calebthompson/time_for_a_boolean.png)](https://codeclimate.com/github/calebthompson/time_for_a_boolean)
 [![Coverage Status](https://coveralls.io/repos/calebthompson/time_for_a_boolean/badge.png)](https://coveralls.io/r/calebthompson/time_for_a_boolean)
 
@@ -77,3 +77,17 @@ Okay... why?
 * `COUNT(posts.deleted_at)` gives you the count of deleted posts, which is
   useful when writing a report. Define and use `Post.deleted.count` when you
   have Ruby available.
+
+Other Options
+-------------
+
+If you have a date or time column that does not follow the `attribute_at` convention,
+you can specify the attribute name:
+
+```
+class User < ActiveRecord::Base
+  time_for_a_boolean :expires, :expires_on
+end
+```
+
+This is especially useful when using date only columns.
