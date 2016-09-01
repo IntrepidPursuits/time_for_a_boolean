@@ -24,6 +24,9 @@ describe TimeForABoolean do
   end
 
   describe 'attribute method' do
+    let(:past_time) { Time.now - 10 }
+    let(:future_time) { Time.now + 86400 }
+
     it 'calls nil? on the backing timestamp' do
       klass.time_for_a_boolean :attribute
       timestamp = double(nil?: true)
@@ -36,7 +39,7 @@ describe TimeForABoolean do
 
     it 'is true if the attribute is not nil' do
       klass.time_for_a_boolean :attribute
-      allow(object).to receive(:attribute_at).and_return(Time.now - 10)
+      allow(object).to receive(:attribute_at).and_return(past_time)
 
       expect(object.attribute).to be_truthy
     end
@@ -50,12 +53,15 @@ describe TimeForABoolean do
 
     it 'is false if the attribute time is in the future' do
       klass.time_for_a_boolean :attribute
-      allow(object).to receive(:attribute_at).and_return(Time.now + 86400) # one day in the future
+      allow(object).to receive(:attribute_at).and_return(future_time) # one day in the future
 
       expect(object.attribute).to be_falsey
     end
 
     context 'when the user has defined their own attribute name' do
+      let(:future_date) { Date.current + 2 }
+      let(:past_date) { Date.current - 10 }
+
       it 'calls nil? on the backing value' do
         klass.time_for_a_boolean :attribute, :attribute_on
         date = double(nil?: true)
@@ -68,7 +74,7 @@ describe TimeForABoolean do
 
       it 'is true if the attribute is not nil' do
         klass.time_for_a_boolean :attribute, :attribute_on
-        allow(object).to receive(:attribute_on).and_return(Date.current - 10)
+        allow(object).to receive(:attribute_on).and_return(past_date)
 
         expect(object.attribute).to be_truthy
       end
@@ -82,7 +88,7 @@ describe TimeForABoolean do
 
       it 'is false if the attribute date is in the future' do
         klass.time_for_a_boolean :attribute, :attribute_on
-        allow(object).to receive(:attribute_on).and_return(Time.current + 1)
+        allow(object).to receive(:attribute_on).and_return(future_date)
 
         expect(object.attribute).to be_falsey
       end
