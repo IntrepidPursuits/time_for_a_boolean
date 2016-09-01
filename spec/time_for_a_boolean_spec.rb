@@ -2,6 +2,7 @@ require 'coveralls'
 Coveralls.wear!
 
 require 'time_for_a_boolean'
+require 'active_support/core_ext/time/calculations'
 
 describe TimeForABoolean do
   it 'defines the attribute method' do
@@ -81,7 +82,7 @@ describe TimeForABoolean do
 
       it 'is false if the attribute date is in the future' do
         klass.time_for_a_boolean :attribute, :attribute_on
-        allow(object).to receive(:attribute_on).and_return(Date.current + 1)
+        allow(object).to receive(:attribute_on).and_return(Time.current + 1)
 
         expect(object.attribute).to be_falsey
       end
